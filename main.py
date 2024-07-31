@@ -53,9 +53,6 @@ def screenshot(input_object):
         pass
 
 
-# todo: image to text
-
-
 def main():
     input_object = plebmasters()
     screenshot(input_object)
