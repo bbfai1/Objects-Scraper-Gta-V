@@ -1,4 +1,5 @@
 import time
+from names import search_button, object_preview, model_3d, idk_button, User
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -27,17 +28,13 @@ def plebmasters():
     search.clear()
     search.send_keys(input_object)
     search.send_keys(Keys.ENTER)
-    wait.until(EC.presence_of_element_located((By. XPATH,
-    '/html/body/div[1]/div/div/div/main/div/div/div[3]/div/div/div/div[2]/div[2]/div[1]/div/div/div[2]/div[3]')))
+    wait.until(EC.presence_of_element_located((By. XPATH, search_button)))
 
-    photo_pre_view = driver.find_element(By. XPATH,
-    '/html/body/div[1]/div/div/div/main/div/div/div[3]/div/div/div/div[2]/div[2]/div[1]/div/div/div[2]/div[3]')
+    photo_pre_view = driver.find_element(By. XPATH, object_preview)
     photo_pre_view.click()
-    wait.until(EC.presence_of_element_located((By. XPATH,
-    '/html/body/div[3]/div[6]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[1]/div[1]/div/div/button[2]/span[3]')))
+    wait.until(EC.presence_of_element_located((By. XPATH, model_3d)))
 
-    photo_view = driver.find_element(By. XPATH,
-    '/html/body/div[3]/div[6]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[1]/div[1]/div/div/button[2]/span[3]')
+    photo_view = driver.find_element(By. XPATH, idk_button)
     photo_view.click()
     time.sleep(4)
 
@@ -47,7 +44,7 @@ def plebmasters():
 def screenshot(input_object):
     screenshot = ImageGrab.grab(bbox=(790, 400, 1528, 800))
     try:
-        screenshot.save(rf"C:\Users\BBFaiL\Desktop\{input_object}.png")
+        screenshot.save(rf"C:\Users\{User}\Desktop\{input_object}.png")
         screenshot.close()
     except:
         pass
