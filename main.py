@@ -1,6 +1,7 @@
 import time
 import pyautogui
-from names import User, search_tab, first_response, view_3D, layout, copy_button
+import getpass
+from names import search_tab, first_response, view_3D, copy_button
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,7 +14,7 @@ import win32clipboard
 
 
 input_object = str(input('Укажите название объекта: '))
-
+User = getpass.getuser()
 
 driver = webdriver.Chrome()
 wait = WebDriverWait(driver, 60)
@@ -82,6 +83,8 @@ def main(input_object):
     screenshot(input_object)
     image_to_clipboard()
     visionbot()
+    driver.close()
+    driver.quit()
 
 
 if __name__ == '__main__':
