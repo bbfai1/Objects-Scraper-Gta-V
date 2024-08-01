@@ -1,6 +1,12 @@
 import time
 import pandas as pd
-from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz
+import requests
+
+from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz, phrases_to_remove
+from io import BytesIO
+import win32clipboard
+from PIL import Image
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -25,7 +31,7 @@ print(object_list)
 
 options = webdriver.ChromeOptions()
 options.add_argument("--mute-audio")
-options.add_argument("--headless=new")
+# options.add_argument("--headless=new")
 
 
 driver = webdriver.Chrome(options=options)
@@ -72,7 +78,7 @@ def gta_objects_xyz(input_object):
         first_layout.click()
         print('Открыт объект')
 
-        img_element = wait.until(EC.presence_of_element_located((By.ID, "objectImage")))
+        img_element = wait.until(EC.visibility_of_element_located((By.ID, "objectImage")))
         img_url = img_element.get_attribute("src")
         print(f"URL изображения: {img_url}")
         return img_url
@@ -102,9 +108,34 @@ def visionbot(img_url):
         print(f"Ошибка при обработке изображения на visionbot: {e}")
         return "Ошибка обработки"
 
+def save_to_clipboard_photo(img_url):
+    response = requests.get(url=img_url)
+    image = Image.open(BytesIO(response.content))
+    tempIO = BytesIO()
+    image.save(tempIO, 'BMP')
+
+    win32clipboard.OpenClipboard()
+    win32clipboard.EmptyClipboard()
+    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, tempIO.getvalue()[14:])
+    win32clipboard.CloseClipboard()
+
+def clear_image():
+    driver.get('https://removal.ai/upload')
+
+    body = driver.find_element(By. ID, 'upload-page-link')
+    body.send_keys(Keys.CONTROL + 'v')
+
+    finish = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.rm-bg-result img')))
+    time.sleep(7)
+    finish_url = finish.get_attribute("src")
+    print(f"URL изображения: {finish_url}")
+
+    return finish_url
+
 
 def main(object_list):
     results = []
+
 
     for input_object in object_list:
         try:
@@ -112,7 +143,13 @@ def main(object_list):
                 img_url = plebmasters(input_object)
             else:
                 img_url = gta_objects_xyz(input_object)
-            description = visionbot(img_url)
+
+            save_to_clipboard_photo(img_url)
+            finish_url = clear_image()
+            description = visionbot(finish_url)
+
+            for phrase in phrases_to_remove:
+                description = description.replace(phrase, "")
 
             results.append({
                 'hash': input_object,
