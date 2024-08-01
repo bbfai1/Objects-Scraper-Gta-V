@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b05fc416-25fe-4f77-a9cc-3a98743a73bd" name="Changes" comment="new">
+    <list default="true" id="b05fc416-25fe-4f77-a9cc-3a98743a73bd" name="Changes" comment="fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/names.py" beforeDir="false" afterPath="$PROJECT_DIR$/names.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +177,47 @@
       <option name="project" value="LOCAL" />
       <updated>1722500463128</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="changes">
+      <option name="closed" value="true" />
+      <created>1722503062673</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1722503062673</updated>
+    </task>
+    <task id="LOCAL-00012" summary="changes">
+      <option name="closed" value="true" />
+      <created>1722503260727</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1722503260727</updated>
+    </task>
+    <task id="LOCAL-00013" summary="changes">
+      <option name="closed" value="true" />
+      <created>1722505553200</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1722505553200</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add requirements.txt, restore names.py, add support another site, bug fixes and much more">
+      <option name="closed" value="true" />
+      <created>1722511626834</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1722511626834</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1722516147189</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1722516147189</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -187,6 +226,9 @@
     <MESSAGE value="Add files" />
     <MESSAGE value="Add gitignore" />
     <MESSAGE value="new" />
-    <option name="LAST_COMMIT_MESSAGE" value="new" />
+    <MESSAGE value="changes" />
+    <MESSAGE value="Add requirements.txt, restore names.py, add support another site, bug fixes and much more" />
+    <MESSAGE value="fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
   </component>
 </project>

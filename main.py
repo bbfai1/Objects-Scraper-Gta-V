@@ -10,7 +10,16 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 user_check_site = int(input('Укажите сайт, через который вы хотите работать, 1 - plebmasters; 2 - gta-objects (рекомендуется): '))
-input_object = str(input('Укажите название объекта: '))
+# input_object = str(input('Укажите название объекта: '))
+
+
+object_list = []  # Создаем пустой список
+
+while True:
+    user_input = input("Введите строку (или 'стоп' для завершения): ")
+    if user_input.lower() == 'стоп':
+        break
+    object_list.append(user_input)
 
 
 options = webdriver.ChromeOptions()
@@ -87,15 +96,17 @@ def visionbot(img_url):
     return description
 
 
-def main(input_object):
-    if user_check_site == 1:
-        img_url = plebmasters(input_object)
-    else:
-        img_url = gta_objects_xyz(input_object)
-    description = visionbot(img_url)
+def main(object_list):
+    for input_object in object_list:
+        if user_check_site == 1:
+            img_url = plebmasters(input_object)
+        else:
+            img_url = gta_objects_xyz(input_object)
+        description = visionbot(img_url)
+
     driver.close()
     driver.quit()
 
 
 if __name__ == '__main__':
-    main(input_object)
+    main(object_list)
