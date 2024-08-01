@@ -1,5 +1,4 @@
 import time
-import pyperclip
 import pandas as pd
 from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz
 
@@ -20,6 +19,8 @@ while True:
     if user_input.lower() == 'стоп':
         break
     object_list.append(user_input)
+
+print(object_list)
 
 
 options = webdriver.ChromeOptions()
@@ -101,7 +102,6 @@ def visionbot(img_url):
 
         success_element = driver.find_element(By.ID, 'success1')
         description = success_element.text
-        pyperclip.copy(description)
 
         print(description)
         return description
@@ -123,8 +123,8 @@ def main(object_list):
             description = visionbot(img_url)
 
             results.append({
-                'hash   ': input_object,
-                ' Description': description
+                'hash': input_object,
+                'Description': description
             })
 
         except Exception as e:
