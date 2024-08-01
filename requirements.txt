@@ -1,4 +1,1 @@
 selenium
-pillow
-pyautogui
-pywin32
