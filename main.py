@@ -1,5 +1,4 @@
 import time
-import getpass
 import pyperclip
 from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz
 
@@ -20,7 +19,7 @@ options.add_argument("--headless=new")
 
 
 driver = webdriver.Chrome(options=options)
-wait = WebDriverWait(driver, 120)
+wait = WebDriverWait(driver, 60)
 
 
 def plebmasters(input_object):
@@ -81,10 +80,11 @@ def visionbot(img_url):
     wait.until(EC.presence_of_element_located((By. ID, 'success1')))
 
     success_element = driver.find_element(By.ID, 'success1')
-    text = success_element.text
-    pyperclip.copy(text)
+    description = success_element.text
+    pyperclip.copy(description)
 
-    print(text)
+    print(description)
+    return description
 
 
 def main(input_object):
@@ -92,7 +92,7 @@ def main(input_object):
         img_url = plebmasters(input_object)
     else:
         img_url = gta_objects_xyz(input_object)
-    visionbot(img_url)
+    description = visionbot(img_url)
     driver.close()
     driver.quit()
 
