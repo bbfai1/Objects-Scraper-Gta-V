@@ -1,6 +1,7 @@
 import time
 import pyautogui
 import getpass
+import os
 from names import search_tab, first_response, view_3D, copy_button
 
 from selenium import webdriver
