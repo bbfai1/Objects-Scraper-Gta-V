@@ -33,10 +33,10 @@ def plebmasters(input_object):
 
     first_layout = driver.find_element(By.XPATH, first_response)
     first_layout.click()
-    wait.until(EC.visibility_of_element_located((By.XPATH, view_3D)))
+    # wait.until(EC.visibility_of_element_located((By.XPATH, view_3D)))
 
-    view = driver.find_element(By. XPATH, view_3D)
-    view.click()
+    # view = driver.find_element(By. XPATH, view_3D)
+    # view.click()
     time.sleep(4.5)
 
 
@@ -69,7 +69,7 @@ def image_to_clipboard():
 
 def visionbot():
     driver.get('https://visionbot.ru/')
-    time.sleep(3)
+    time.sleep(1.5)
     pyautogui.hotkey('ctrl', 'v')
     wait.until(EC.presence_of_element_located((By. ID, 'success1')))
 
