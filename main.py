@@ -31,7 +31,7 @@ print(object_list)
 
 options = webdriver.ChromeOptions()
 options.add_argument("--mute-audio")
-# options.add_argument("--headless=new")
+options.add_argument("--headless=new")
 
 
 driver = webdriver.Chrome(options=options)
