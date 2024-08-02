@@ -1,5 +1,2 @@
 selenium
 pandas
-pywin32
-pillow
-requests

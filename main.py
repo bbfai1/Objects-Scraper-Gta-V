@@ -1,7 +1,7 @@
 import pandas as pd
 
-from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz, phrases_to_remove
-from image_manipulation import visionbot, save_to_clipboard_photo, clear_image
+from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz
+from image_manipulation import visionbot, description_image
 from chromedriver import driver
 
 from selenium.webdriver.common.by import By
@@ -16,8 +16,8 @@ user_check_site = int(input('Укажите сайт, через который 
 object_list = []
 
 while True:
-    user_input = input("Введите строку (или 'стоп' для завершения): ")
-    if user_input.lower() == 'стоп':
+    user_input = input("Введите строку (или нажмите кнопку ENTER для завершения): ")
+    if user_input.lower() == '':
         break
     object_list.append(user_input)
 
@@ -80,7 +80,6 @@ def gta_objects_xyz(input_object):
 def main(object_list):
     results = []
 
-
     for input_object in object_list:
         try:
             if user_check_site == 1:
@@ -88,16 +87,17 @@ def main(object_list):
             else:
                 img_url = gta_objects_xyz(input_object)
 
-            save_to_clipboard_photo(img_url)
-            finish_url = clear_image()
-            description = visionbot(finish_url)
+            description = visionbot(img_url)
 
-            for phrase in phrases_to_remove:
-                description = description.replace(phrase, "")
+            driver.delete_all_cookies()
+            driver.execute_script("window.localStorage.clear();")
+            driver.execute_script("window.sessionStorage.clear();")
+
+            short_description = description_image(description)
 
             results.append({
                 'hash': input_object,
-                'Description': description
+                'Description': short_description
             })
 
         except Exception as e:

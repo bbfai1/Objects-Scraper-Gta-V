@@ -1,7 +1,3 @@
-import requests
-import win32clipboard
-from PIL import Image
-from io import BytesIO
 import time
 
 from chromedriver import driver
@@ -34,27 +30,23 @@ def visionbot(img_url):
         return "Ошибка обработки"
 
 
-def save_to_clipboard_photo(img_url):
-    response = requests.get(url=img_url)
-    image = Image.open(BytesIO(response.content))
-    tempIO = BytesIO()
-    image.save(tempIO, 'BMP')
+def description_image(description):
+    try:
+        driver.get('https://deepai.org/chat')
 
-    win32clipboard.OpenClipboard()
-    win32clipboard.EmptyClipboard()
-    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, tempIO.getvalue()[14:])
-    win32clipboard.CloseClipboard()
+        # Ожидание появления текстового поля
+        input_box = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'chatbox')))
+        input_box.clear()
+        input_box.send_keys(f'Сократи описание объекта до 3 слов, укажи самые нужные вещи. Пример: коричневое мягкое кресло. {description}')
 
+        # Ожидание появления ответа
+        body = wait.until(EC.visibility_of_element_located((By. CLASS_NAME, 'copytextButton')))  # Время ожидания ответа от сервиса DeepAI может быть разным
+        time.sleep(3)
+        ai_text = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/form/div[2]/div[1]')))
+        short_description = ai_text.text
 
-def clear_image():
-    driver.get('https://removal.ai/upload')
+        print(short_description)
+        return short_description
+    except Exception as e:
+        print(f'Ошибка: {e}')
 
-    body = driver.find_element(By. ID, 'upload-page-link')
-    body.send_keys(Keys.CONTROL + 'v')
-
-    finish = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.rm-bg-result img')))
-    time.sleep(7)
-    finish_url = finish.get_attribute("src")
-    print(f"URL изображения: {finish_url}")
-
-    return finish_url
