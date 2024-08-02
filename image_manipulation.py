@@ -37,7 +37,7 @@ def description_image(description):
         # Ожидание появления текстового поля
         input_box = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'chatbox')))
         input_box.clear()
-        input_box.send_keys(f'Сократи описание объекта до 3 слов, укажи самые нужные вещи. Пример: коричневое мягкое кресло. {description}')
+        input_box.send_keys(f'Сократи описание объекта до 3 слов, не указывай логотипы и ватермарки, укажи самые нужные вещи. Пример: коричневое мягкое кресло. {description}')
 
         # Ожидание появления ответа
         body = wait.until(EC.visibility_of_element_located((By. CLASS_NAME, 'copytextButton')))  # Время ожидания ответа от сервиса DeepAI может быть разным
