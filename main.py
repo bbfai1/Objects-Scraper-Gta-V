@@ -1,13 +1,10 @@
 import time
-
 import pandas as pd
 
-from names import search_tab, first_response, search_tab_gta_object_xyz, first_response_gta_object_xyz
 from image_manipulation import visionbot, description_image
 from chromedriver import driver
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -31,24 +28,9 @@ wait = WebDriverWait(driver, 10)
 
 def plebmasters(input_object):
     try:
-        # driver.maximize_window()
-        # driver.get('https://forge.plebmasters.de/')
-        #
-        # search = wait.until(EC.presence_of_element_located((By. XPATH, search_tab)))
-        # search.clear()
-        # search.send_keys(input_object)
-        # search.send_keys(Keys.ENTER)
-        # print('Поиск завершен')
-        #
-        # try:
-        #     card_title_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.v-card-title.position-absolute')))
-        #     card_title_element.click()
-        #     print('Открыт объект')
-        # except Exception as e:
-        #     print(f"Элемент не найден: {e}")
-
         driver.get(f'https://forge.plebmasters.de/objects/{input_object}')
-        time.sleep(1)
+        print(f'Сейчас обрабатывается: {input_object}')
+        time.sleep(2)
 
         img_element = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".normal > img:nth-child(2)")))
         img_url = img_element.get_attribute("src")
@@ -63,6 +45,7 @@ def plebmasters(input_object):
 def gta_objects_xyz(input_object):
     try:
         img_url = f'https://gta-objects.xyz/gallery/objects/{input_object}.jpg'
+        print(f'Сейчас обрабатывается: {input_object}')
         print(f"URL изображения: {img_url}")
         return img_url
 

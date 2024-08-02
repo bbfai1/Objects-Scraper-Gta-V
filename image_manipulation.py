@@ -18,11 +18,9 @@ def visionbot(img_url):
         paste_url.send_keys(img_url)
         paste_url.send_keys(Keys.ENTER)
 
-        print('Вставлено')
         success_element = wait.until(EC.presence_of_element_located((By. ID, 'success1')))
         description = success_element.text
 
-        print(description)
         return description
 
     except Exception as e:
