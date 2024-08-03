@@ -25,29 +25,6 @@ cd ObjectScraperRadikRP
 ### Шаг 3: Установите зависимости: 
 ```pip install -r requirements.txt```
 
-### Шаг 4: Укажите путь:
-Заходим в файл `chromedriver.py` и находим переменную `path` в ней мы указываем точное расположение до файла `uBlock-Origin-Chrome.crx`. (Если вы разархивировали программу без вмешательства - оно будет в корневой папке.) 
 
 # Работа с программой.
-## Использование: 
-### Запуск:
-```main.py```
-### Пример использования:
-```
-C:\Users\BBFaiL\PycharmProjects\Objects-Scraper-Gta-V\.venv\Scripts\python.exe C:\Users\BBFaiL\PycharmProjects\Objects-Scraper-Gta-V\main.py 
-Укажите сайт, через который вы хотите работать, 1 - plebmasters; 2 - gta-objects (рекомендуется): 1
-Введите строку (или нажмите кнопку ENTER для завершения): ch_prop_ch_valet_01a
-ch_prop_ch_vase_01a
-ch_prop_ch_vase_02a
-ch_prop_ch_vault_blue_01
-ch_prop_ch_vault_blue_02
-ch_prop_ch_vault_blue_03
-ch_prop_ch_vault_blue_04
-ch_prop_ch_vault_blue_05
-ch_prop_ch_vault_blue_06
-ch_prop_ch_vault_blue_07
-ch_prop_ch_vault_blue_08
-ch_prop_ch_vault_blue_09
-ch_prop_ch_vault_blue_10
-ch_prop_ch_vault_blue_11Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): Введите строку (или нажмите кнопку ENTER для завершения): 
-Введите строку (или нажмите кнопку ENTER для завершения): `
+%building%
