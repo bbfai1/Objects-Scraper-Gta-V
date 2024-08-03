@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-wait = WebDriverWait(driver, 60)
+wait = WebDriverWait(driver, 120)
 
 
 # Функция сайта visionbot, производящая описание изображения по его URL, подставленного из переменной "img_url"
