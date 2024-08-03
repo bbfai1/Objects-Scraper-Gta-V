@@ -13,8 +13,29 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 wait = WebDriverWait(driver, 10)
 
 
-with open('input.txt', 'r') as file:
-    object_list = [line.strip() for line in file]
+def is_file_empty(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return len(file.read()) == 0
+    except FileNotFoundError:
+        print(f"Файл {file_path} не найден.")
+        return False
+
+
+file_path = 'input.txt'
+
+
+if is_file_empty(file_path):
+    print("Файл пустой. Пожалуйста, введите данные.")
+    object_list = []
+    while True:
+        user_input = input("Введите hash (или просто нажмите Enter для завершения): ")
+        if user_input == "":
+            break
+        object_list.append(user_input.strip())
+else:
+    with open(file_path, 'r') as file:
+        object_list = [line.strip() for line in file]
 
 print(object_list)
 
