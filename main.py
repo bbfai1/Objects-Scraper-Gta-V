@@ -1,5 +1,7 @@
 import time
 import pandas as pd
+import os
+import webbrowser
 
 from image_manipulation import image_control
 from chromedriver import driver
@@ -68,6 +70,88 @@ def gta_objects_xyz(input_object):
         return img_url
 
 
+def create_html_from_df(df):
+    html_content = '''
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Таблица с изображениями и описаниями</title>
+        <style>
+            .copy-btn {
+                cursor: pointer;
+                padding: 5px 10px;
+                margin-left: 10px;
+                color: white;
+                background-color: #007bff;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            img {
+                height: 350px; /* Высота изображения */
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            th {
+                background-color: #f4f4f4;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Таблицы с изображениями и описаниями</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Хэш</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+    '''
+    for _, row in df.iterrows():
+        html_content += f'''
+            <tr>
+                <td><img src="{row['img_url']}" alt="{row[' Description']}"></td>
+                <td>
+                    <span id="hash-{row[' hash']}">{row[' hash']}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('hash-{row[' hash']}')">Копировать</button>
+                </td>
+                <td>
+                    <span id="desc-{row[' Description']}">{row[' Description']}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('desc-{row[' Description']}')">Копировать</button>
+                </td>
+            </tr>
+        '''
+    html_content += '''
+            </tbody>
+        </table>
+        <script>
+            function copyToClipboard(elementId) {
+                var text = document.getElementById(elementId).innerText;
+                var textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+            }
+        </script>
+    </body>
+    </html>
+    '''
+    return html_content
+
+
 # Главная функция программы
 def main():
     # Создание простого списка для вывода данных
@@ -118,13 +202,19 @@ def main():
             ' Description': f' {short_description}'
         })
 
-    # Создание DataFrame с новыми данными. Сохранение обновленного DataFrame в CSV формат без записи индексов строк
-    df_retry = pd.DataFrame(results)
-    df_retry.to_csv('results.csv', index=False)
+        # Создание DataFrame с новыми данными. Сохранение обновленного DataFrame в CSV формат без записи индексов строк
+        df_retry = pd.DataFrame(results)
+        df_retry.to_csv('results.csv', index=False)
 
     # Открываем файл errors.txt в режиме записи и очищаем его
     with open('errors.txt', 'w') as error_file:
         pass
+
+    html_content = create_html_from_df(pd.DataFrame(results))
+    with open('results.html', 'w', encoding='utf-8') as file:
+        file.write(html_content)
+
+    webbrowser.open(f'file://{os.path.realpath("results.html")}')
 
     # Закрывает окно браузера, завершаем сеанс WebDriver, освобождая ресурсы
     driver.close()
