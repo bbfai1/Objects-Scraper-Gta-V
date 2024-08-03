@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 
-from image_manipulation import visionbot, description_image
+from image_manipulation import image_control
 from chromedriver import driver
 
 from selenium.webdriver.common.by import By
@@ -11,18 +11,8 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 wait = WebDriverWait(driver, 10)
 
 
-# Запрашиваем у пользователя выбор сайта для работы и преобразуем введенное значение в целое число
-user_check_site = int(input('Укажите сайт, через который вы хотите работать, 1 - plebmasters; 2 - gta-objects: '))
-
-
-# Создание списка для хранения N-ного количества hash'ей.
-object_list = []
-
-while True:
-    user_input = input("Введите hash предмета (или нажмите кнопку ENTER для завершения): ")
-    if user_input.lower() == '':
-        break
-    object_list.append(user_input)
+with open('input.txt', 'r') as file:
+    object_list = [line.strip() for line in file]
 
 print(object_list)
 
@@ -79,51 +69,62 @@ def gta_objects_xyz(input_object):
 
 
 # Главная функция программы
-def main(object_list):
+def main():
     # Создание простого списка для вывода данных
     results = []
 
     # Итерация по каждому объекту в списке object_list
     for input_object in object_list:
-        # Проверка выбора сайта пользователем и вызов соответствующей функции с записей результата в переменную
-        if user_check_site == 1:
-            img_url = plebmasters(input_object)
-        else:
-            img_url = gta_objects_xyz(input_object)
+        img_url = gta_objects_xyz(input_object)
 
         # Проверка является ли переменная img_url = None
         if img_url is None:
             print(f"Пропущен объект {input_object}: получен None для URL изображения.")
 
-            # Запись hash'а с сообщением об ошибке выполнения
-            results.append({
-                'hash': input_object,
-                'Description': "Файл не найден."
-            })
+            # Запись ошибки в файл
+            with open('errors.txt', 'a') as file:
+                file.write(f'{input_object} \n')
 
             # Продолжение программы со следующим элементом списка, пропуская ошибочный.
             continue
 
-        # Запись описание изображения в переменную "description"
-        description = visionbot(img_url)
-
-        # Очищение файлов куки, сессии и локальных файлов сайта, для обеспечения лучшей работы программы
-        driver.delete_all_cookies()
-        driver.execute_script("window.localStorage.clear();")
-        driver.execute_script("window.sessionStorage.clear();")
-
-        # Запись сокращенного описания в переменную "short_description"
-        short_description = description_image(description)
+        short_description = image_control(img_url)
 
         # Запись hash'а и его сокращенного описания в список
         results.append({
-            'hash': input_object,
-            'Description': short_description
+            'img_url': img_url,
+            ' hash': f' {input_object}',
+            ' Description': f' {short_description}'
         })
 
-    # Создание DataFrame с использованием списка и сохранением его в CSV формат без записи индексов строк
+    # Создание DataFrame с использованием списка
     df = pd.DataFrame(results)
     df.to_csv('results.csv', index=False)
+
+    # Чтение ошибок и повторная попытка обработки
+    with open('errors.txt', 'r') as file:
+        error_objects = [line.strip() for line in file]
+        print(error_objects)
+
+    for obj in error_objects:
+        img_url = plebmasters(obj)
+
+        short_description = image_control(img_url)
+
+        # Запись hash'а и его сокращенного описания в список
+        results.append({
+            'img_url': img_url,
+            ' hash': f' {obj}',
+            ' Description': f' {short_description}'
+        })
+
+    # Создание DataFrame с новыми данными. Сохранение обновленного DataFrame в CSV формат без записи индексов строк
+    df_retry = pd.DataFrame(results)
+    df_retry.to_csv('results.csv', index=False)
+
+    # Открываем файл errors.txt в режиме записи и очищаем его
+    with open('errors.txt', 'w') as error_file:
+        pass
 
     # Закрывает окно браузера, завершаем сеанс WebDriver, освобождая ресурсы
     driver.close()
@@ -132,4 +133,4 @@ def main(object_list):
 
 # Проверка, запущен ли скрипт напрямую и запуск главной функции программы
 if __name__ == '__main__':
-    main(object_list)
+    main()

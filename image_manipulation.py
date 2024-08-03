@@ -57,3 +57,18 @@ def description_image(description):
     # Обрабатываем возможные ошибки
     except Exception as e:
         print(f'Ошибка: {e}')
+
+
+def image_control(img_url):
+    # Запись описание изображения в переменную "description"
+    description = visionbot(img_url)
+
+    # Очищение файлов куки, сессии и локальных файлов сайта, для обеспечения лучшей работы программы
+    driver.delete_all_cookies()
+    driver.execute_script("window.localStorage.clear();")
+    driver.execute_script("window.sessionStorage.clear();")
+
+    # Запись сокращенного описания в переменную "short_description"
+    short_description = description_image(description)
+
+    return short_description
