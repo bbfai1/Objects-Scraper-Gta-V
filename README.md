@@ -14,7 +14,7 @@
 4. In the installer, check the "Add Python X.Y.Z to PATH" option and click "Install Now".
 5. Wait for the installation to complete, close the installer, and **restart** your computer.
 
-## 🗂️ Installing the Program
+### 🗂️ Installing the Program
 
 ### Step 1: Clone the Repository
 ```bash
@@ -75,7 +75,7 @@ If you want to contribute to the project, please fork the repository, make your 
 4. В установщике отметьте опцию "Add Python X.Y.Z to PATH" и нажмите "Install Now".
 5. Дождитесь завершения установки, закройте установщик и **перезагрузите** компьютер.
 
-## 🗂️ Установка программы.
+### 🗂️ Установка программы.
 
 ### Шаг 1: Клонируйте репозиторий
 ```bash
