@@ -8,9 +8,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+wait = WebDriverWait(driver, 10)
+
 
 # Запрашиваем у пользователя выбор сайта для работы и преобразуем введенное значение в целое число
 user_check_site = int(input('Укажите сайт, через который вы хотите работать, 1 - plebmasters; 2 - gta-objects: '))
+
 
 # Создание списка для хранения N-ного количества hash'ей.
 object_list = []
@@ -22,9 +25,6 @@ while True:
     object_list.append(user_input)
 
 print(object_list)
-
-
-wait = WebDriverWait(driver, 10)
 
 
 # Функция сайта plebmasters, производящая поиск объекта на сайте, подставляя hash объекта в адресную строку
