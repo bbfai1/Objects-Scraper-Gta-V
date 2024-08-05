@@ -6,10 +6,7 @@ from image_manipulation import image_control
 from chromedriver import driver
 from sites import plebmasters, gta_objects_xyz
 
-from selenium.webdriver.support.ui import WebDriverWait
 
-
-wait = WebDriverWait(driver, 10)
 file_path = 'input.txt'
 
 
