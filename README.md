@@ -21,7 +21,7 @@
 git clone https://github.com/bbfai1/ObjectScraperRadikRP.git
 ```
 
-Or download code directly in [Zip](https://github.com/bbfai1/ObjectScraperRadikRP/archive/refs/heads/main.zip) archive
+Or download code directly in [Zip](https://codeload.github.com/bbfai1/Objects-Scraper-Gta-V/zip/refs/heads/master) archive
 
 ### Step 2: Navigate to the Project Directory
 ```bash
