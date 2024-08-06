@@ -82,7 +82,7 @@ If you want to contribute to the project, please fork the repository, make your 
 git clone https://github.com/bbfai1/ObjectScraperRadikRP.git
 ```
 
-Или скачайте код прямо в [Zip](https://github.com/bbfai1/ObjectScraperRadikRP/archive/refs/heads/main.zip) архиве
+Или скачайте код прямо в [Zip](https://codeload.github.com/bbfai1/Objects-Scraper-Gta-V/zip/refs/heads/master) архиве
 
 ### Шаг 2: Перейдите в директорию проекта
 ```bash
