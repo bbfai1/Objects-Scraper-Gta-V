@@ -122,6 +122,9 @@ def main():
     # Создание простого списка для вывода данных
     results = []
 
+    # Очищаем файл errors.txt в режиме записи
+    open('errors.txt', 'w').close()
+
     # Итерация по каждому объекту в списке object_list
     for input_object in object_list:
         img_url = gta_objects_xyz(input_object)
@@ -167,10 +170,6 @@ def main():
         # Создание DataFrame с новыми данными. Сохранение обновленного DataFrame в CSV формат без записи индексов строк
         df = pd.DataFrame([result])
         df.to_csv('results.csv', mode='a', header=False, index=False)
-
-    # Открываем файл errors.txt в режиме записи и очищаем его
-    with open('errors.txt', 'w') as error_file:
-        pass
 
     html_content = create_html_from_df(pd.DataFrame(results))
     with open('results.html', 'w', encoding='utf-8') as file:
