@@ -9,52 +9,51 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 wait = WebDriverWait(driver, 10)
 
 
-# Функция сайта plebmasters, производящая поиск объекта на сайте, подставляя hash объекта в адресную строку
+# Function of plebmasters site that searches for an object on the site by substituting the hash of the object in the address bar.
 def plebmasters(input_object):
     try:
         driver.get(f'https://forge.plebmasters.de/objects/{input_object}')
-        print(f'Сейчас обрабатывается: {input_object}')
-        # Даем возможность прогрузится банеру с картинкой
+        print(f'Now processing: {input_object}')
+        # Let the banner with the image load
         time.sleep(2)
 
-        # Находим изображение объекта через CSS селектор
+        # Find the object image via CSS selector
         img_element = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".normal > img:nth-child(2)")))
         img_url = img_element.get_attribute("src")
-        print(f"URL изображения: {img_url}")
+        print(f"Image URL: {img_url}")
 
-        # Возвращаем переменную, для последующей работы другой функцию
+        # Return a variable for another function to use later on
         return img_url
 
-    # Обрабатываем возможные ошибки
+    # Handle possible errors
     except Exception as e:
-        print(f"Ошибка при обработке {input_object} на plebmasters: объект не найден. {e}")
+        print(f"Error while processing {input_object} on plebmasters: object not found. {e}")
         return None
 
 
-# Функция сайта gta-objects, производящая поиск изображения объекта на сайте, подставляя hash объекта в адресную строку
+# Function of gta-objects site that searches for an image of an object on the site by substituting the hash of the object in the address bar.
 def gta_objects_xyz(input_object):
     img_url = f'https://gta-objects.xyz/gallery/objects/{input_object}.jpg'
-    print(f'Сейчас обрабатывается: {input_object}')
-    print(f"Потенциальное URL изображения: {img_url}")
+    print(f'Now processing: {input_object}')
+    print(f'Potential image URL: {img_url}')
 
-    # Проверка доступности hash'а объекта на сайте
+    # Check if object hash is available on the site
     try:
-        # Открываем URL, указанный в img_url. Ожидаем, пока 'title' станет видимым на странице.
+        # Open the URL specified in img_url. Wait for the 'title' to become visible on the page.
         driver.get(img_url)
         wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'title')))
 
-        # Находим элемент с заголовком ошибки
+        # Find the element with the error header
         error_element = driver.find_element(By.XPATH, '//h1[@class="title pt-4 pb-4"]')
 
-        # Проверяем, содержит ли текст элемента сообщение об ошибке 404.
-        # Если ошибка найдена, выводим сообщение об ошибке и возвращаем None
+        # Check if the element text contains a 404 error message.
+        # If an error is found, print the error message and return None
         if "ERROR 404 :: Page not found" in error_element.text:
-            print(f"Объект {input_object} не найден: ERROR 404")
             return None
         else:
-            # Если ошибка 404 не найдена, возвращаем URL изображения
+            # If 404 error not found, return image URL
             return img_url
 
-    # Обработка исключений, если элемент не найден или истекло время ожидания то возвращаем img_url
+    # Exception handling, if item not found or timeout expired, return img_url
     except (NoSuchElementException, TimeoutException):
         return img_url

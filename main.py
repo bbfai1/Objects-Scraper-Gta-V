@@ -2,27 +2,27 @@ import pandas as pd
 import os
 import webbrowser
 
-from image_manipulation import image_control
+from image_manipulation import create_text_description
 from chromedriver import driver
 from sites import plebmasters, gta_objects_xyz
 
 
 file_path = 'input.txt'
-
-
 def is_file_empty(file_path):
     try:
         with open(file_path, 'r') as file:
             return len(file.read()) == 0
     except FileNotFoundError:
-        print(f"Файл {file_path} не найден.")
-        return False
+        print(f"The {file_path} file was not found and was created.")
+        open(file_path, 'a').close()
+        return True
+
 
 if is_file_empty(file_path):
-    print("Файл пустой. Пожалуйста, введите данные.")
+    print("The file is empty. Please enter data.")
     object_list = []
     while True:
-        user_input = input("Введите hash (или нажмите Enter для завершения): ")
+        user_input = input("Enter hash (or press Enter to finalize the entry): ")
         if user_input == "":
             break
         object_list.append(user_input.strip())
@@ -30,7 +30,7 @@ else:
     with open(file_path, 'r') as file:
         object_list = [line.strip() for line in file]
 
-print(f'Ваш список объектов: {object_list}')
+print(f'Your object list: {object_list}')
 
 
 def create_html_from_df(df):
@@ -115,30 +115,31 @@ def create_html_from_df(df):
     return html_content
 
 
-# Главная функция программы
+# Main program function
 def main():
+    # Create a simple list to output data
     pd.DataFrame(columns=['img_url', 'hash', 'Description']).to_csv('results.csv', index=False)
-
-    # Создание простого списка для вывода данных
     results = []
 
-    # Очищаем файл errors.txt в режиме записи
-    open('errors.txt', 'w').close()
+    # Clean up the errors.txt file, if it is not in the directory - create it
+    if os.path.exists('errors.txt'):
+        open('errors.txt', 'w').close()
+    else:
+        open('errors.txt', 'a').close()
 
-    # Итерация по каждому объекту в списке object_list
+    # Iterate over each object in object_list
     for input_object in object_list:
         img_url = gta_objects_xyz(input_object)
 
-        # Проверка является ли переменная img_url = None, запись ошибки в файл и пропуск ошибочного объекта.
+        # Check if img_url = None, write error to file and skip erroneous object.
         if img_url is None:
-            print(f"Для объекта {input_object} не найдено изображения.")
             with open('errors.txt', 'a') as file:
                 file.write(f'{input_object} \n')
             continue
 
-        short_description = image_control(img_url)
+        short_description = create_text_description(img_url)
 
-        # Запись hash'а и его сокращенного описания в список
+        # Write hash and its abbreviated description to the list
         result = {
             'img_url': img_url,
             'hash': input_object,
@@ -146,20 +147,20 @@ def main():
         }
         results.append(result)
 
-        # Создание DataFrame с использованием списка
+        # Create a DataFrame using a list
         df = pd.DataFrame(results)
         df.to_csv('results.csv', mode='a', header=not os.path.exists('results.csv'), index=False)
 
-    # Чтение ошибок и повторная попытка обработки
+    # Read errors and retry processing
     with open('errors.txt', 'r') as file:
         error_objects = [line.strip() for line in file]
         print(f'Список файлов на обработку: {error_objects}')
 
     for obj in error_objects:
         img_url = plebmasters(obj)
-        short_description = image_control(img_url)
+        short_description = create_text_description(img_url)
 
-        # Запись hash'а и его сокращенного описания в список
+        # Write hash and its abbreviated description to the list
         result = {
             'img_url': img_url,
             'hash': obj,
@@ -167,7 +168,7 @@ def main():
         }
         results.append(result)
 
-        # Создание DataFrame с новыми данными. Сохранение обновленного DataFrame в CSV формат без записи индексов строк
+        # Create DataFrame with new data. Saving the updated DataFrame to CSV format without writing row indexes
         df = pd.DataFrame([result])
         df.to_csv('results.csv', mode='a', header=False, index=False)
 
@@ -177,11 +178,11 @@ def main():
 
     webbrowser.open(f'file://{os.path.realpath("results.html")}')
 
-    # Закрывает окно браузера, завершаем сеанс WebDriver, освобождая ресурсы
+    # Closes browser window, terminates WebDriver session, freeing resources
     driver.close()
     driver.quit()
 
 
-# Проверка, запущен ли скрипт напрямую и запуск главной функции программы
+# Check if the script is running directly and run the main function of the program
 if __name__ == '__main__':
     main()

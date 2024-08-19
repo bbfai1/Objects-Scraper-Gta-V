@@ -1,6 +1,6 @@
 from selenium import webdriver
 
-# Добавление расширения, отключения звука и скрытие окна браузера
+# Add extension, mute and hide browser window
 options = webdriver.ChromeOptions()
 options.add_extension('uBlock-Origin-Chrome.crx')
 options.add_argument("--mute-audio")

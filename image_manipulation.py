@@ -7,68 +7,68 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-wait = WebDriverWait(driver, 120)
+wait = WebDriverWait(driver, 180)
 
 
-# Функция сайта visionbot, производящая описание изображения по его URL, подставленного из переменной "img_url"
+# Visionbot site function that describes an image by its URL substituted from the “img_url” variable.
 def visionbot(img_url):
     try:
         driver.get('https://visionbot.ru/')
 
-        # Поиск на сайте поля для ввода URL изображения и его ввод, с последующей обработкой от сайта
+        # Search the site for an image URL field and enter it, followed by processing from the site
         paste_url = driver.find_element(By.XPATH, '//*[@id="userlink"]')
         paste_url.send_keys(img_url)
         paste_url.send_keys(Keys.ENTER)
 
-        # Дожидаемся окончания описи изображения и записываем результат (описание) в отдельную переменную
+        # Wait until the image inventory is complete and write the result (description) to a separate variable
         success_element = wait.until(EC.presence_of_element_located((By. ID, 'success1')))
         description = success_element.text
 
-        # Возвращаем переменную, для последующей работы другой функцию
+        # Return a variable for another function to use later on
         return description
 
-    # Обрабатываем возможные ошибки
+    # Handle possible errors
     except Exception as e:
-        print(f"Ошибка при обработке изображения на visionbot: {e}")
-        return "Ошибка обработки"
+        print(f"Error during image processing on visionbot: {e}")
+        return "Processing error"
 
 
-# Функция сайта deepai, проводящая сокращение текста с использованием ИИ, подставленного из переменной "description"
+# A deepai function that shortens text using AI substituted from the “description” variable
 def description_image(description):
     try:
         driver.get('https://deepai.org/chat')
 
-        # Ожидание появления текстового поля и ввод promt'а с описанием подставленного из переменной "description"
+        # Waiting for the text field to appear and entering promt with the description substituted from the “description” variable
         input_box = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'chatbox')))
         input_box.clear()
         input_box.send_keys(f'Сократи описание объекта до 3 слов, не указывай логотипы и ватермарки, укажи самые нужные вещи. Пример: коричневое мягкое кресло. {description}')
 
-        # Ожидание появления кнопки на экране, ждем маленькое количество времени, чтобы получить ответ и записываем
-        # его в отдельную переменную
-        body = wait.until(EC.visibility_of_element_located((By. CLASS_NAME, 'copytextButton')))
+        # Wait for the button to appear on the screen, wait a small amount of time to get a response and write it down
+        # it into a separate variable
+        wait.until(EC.visibility_of_element_located((By. CLASS_NAME, 'copytextButton')))
         time.sleep(3)
         ai_text = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/form/div[2]/div[1]')))
         short_description = ai_text.text
 
-        # Простое информирование пользователя в терминале с возвращением переменной, для работы другой функцию
+        # Simple informing the user in the terminal with a variable return, to run another function
         print(short_description)
         return short_description
 
-    # Обрабатываем возможные ошибки
+    # Handle possible errors
     except Exception as e:
-        print(f'Ошибка: {e}')
+        print(f'Error: {e}')
 
 
-def image_control(img_url):
-    # Запись описание изображения в переменную "description"
+def create_text_description(img_url):
+    # Write the description of the image to the variable “description”
     description = visionbot(img_url)
 
-    # Очищение файлов куки, сессии и локальных файлов сайта, для обеспечения лучшей работы программы
+    # Clearing cookies, session and local site files to ensure better program performance
     driver.delete_all_cookies()
     driver.execute_script("window.localStorage.clear();")
     driver.execute_script("window.sessionStorage.clear();")
 
-    # Запись сокращенного описания в переменную "short_description"
+    # Write the short description to the variable “short_description”
     short_description = description_image(description)
 
     return short_description
