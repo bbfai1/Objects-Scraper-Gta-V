@@ -18,14 +18,14 @@
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/bbfai1/ObjectScraperRadikRP.git
+git clone https://github.com/bbfai1/Objects-Scraper-Gta-V.git
 ```
 
 Or download code directly in [Zip](https://codeload.github.com/bbfai1/Objects-Scraper-Gta-V/zip/refs/heads/master) archive
 
 ### Step 2: Navigate to the Project Directory
 ```bash
-cd ObjectScraperRadikRP
+cd Objects-Scraper-Gta-V
 ```
 
 ### Step 3: Install Dependencies
@@ -79,14 +79,14 @@ If you want to contribute to the project, please fork the repository, make your 
 
 ### Шаг 1: Клонируйте репозиторий
 ```bash
-git clone https://github.com/bbfai1/ObjectScraperRadikRP.git
+git clone https://github.com/bbfai1/Objects-Scraper-Gta-V.git
 ```
 
 Или скачайте код прямо в [Zip](https://codeload.github.com/bbfai1/Objects-Scraper-Gta-V/zip/refs/heads/master) архиве
 
 ### Шаг 2: Перейдите в директорию проекта
 ```bash
-cd ObjectScraperRadikRP
+cd Objects-Scraper-Gta-V
 ```
 
 ### Шаг 3: Установите зависимости: 
